@@ -1,4 +1,4 @@
-package com.prep.twopointer;
+package com.prep.codingpatterns.twopointer;
 
 import java.util.Arrays;
 

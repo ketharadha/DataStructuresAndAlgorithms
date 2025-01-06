@@ -1,4 +1,4 @@
-package com.prep.twopointer;
+package com.prep.codingpatterns.twopointer;
 
 import java.util.Arrays;
 
@@ -11,7 +11,6 @@ public class TwoSumII {
         int[] inputArray = {4,6,9,15,25}; //sorted Array
         int target = 90;
         System.out.println(Arrays.toString(TwoSumII.twoSumIndicesUsingFor(inputArray, target)));
-        
     }
     
     /**
