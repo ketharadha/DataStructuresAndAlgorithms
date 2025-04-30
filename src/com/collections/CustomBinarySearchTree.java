@@ -1,6 +1,6 @@
 package com.collections;
 
-import java.lang.runtime.TemplateRuntime;
+import com.sun.jdi.connect.Connector;
 
 public class CustomBinarySearchTree {
     Node root;
@@ -42,26 +42,7 @@ public class CustomBinarySearchTree {
             }
         }
     }
-
-    public static void main(String[] args) {
-        CustomBinarySearchTree cbt = new CustomBinarySearchTree();
-
-        cbt.add(50);
-        cbt.add(45);
-        cbt.add(55);
-        cbt.add(51);
-        cbt.add(40);
-        cbt.add(10);
-        System.out.println("Inorder Traveral");
-        cbt.inOrderTraversal(cbt.root);
-        System.out.println("PreOrder Traversal");
-        cbt.preOrderTraversal(cbt.root);
-        System.out.println("PostOrder Traversal");
-        cbt.postOrderTraversal(cbt.root);
-        //Find the min value of binary tree
-        System.out.println("Minimum Value : " + cbt.minValue(cbt.root));
-    }
-
+    
     private void inOrderTraversal(Node root) {
         if(root != null) {
             inOrderTraversal(root.left);
@@ -91,5 +72,69 @@ public class CustomBinarySearchTree {
             root = root.left;
         }
         return root.data;
+    }
+
+    private int maxValue(Node root) {
+        while(root.right != null) {
+            root = root.right;
+        }
+        return root.data;
+    }
+
+    private String findNode(Node root, int value) {
+        while(true) {
+            if(root != null) {
+                if (value == root.data) {
+                    return "Found Node : " + root.data;
+                }
+                if (value < root.data) {
+                    System.out.println("Accessing Left Node : " + root.data);
+                    root = root.left;
+                } else {
+                    System.out.println("Accessing Right Node : " + root.data);
+                    root = root.right;
+                }
+            } else {
+                return "Node Not Found : " + value;
+            }
+        }
+    }
+
+    private boolean findNodeWithRecursion(Node root, int value) {
+        
+        if(root != null) {
+            if (value == root.data) {
+                return true;
+            }else if (value < root.data) {
+                return findNodeWithRecursion(root.left, value);
+            } else {
+                return findNodeWithRecursion(root.right, value);
+            }
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        CustomBinarySearchTree cbt = new CustomBinarySearchTree();
+
+        cbt.add(50);
+        cbt.add(45);
+        cbt.add(55);
+        cbt.add(51);
+        cbt.add(40);
+        cbt.add(10);
+        /*System.out.println("Inorder Traveral");
+        cbt.inOrderTraversal(cbt.root);
+        System.out.println("PreOrder Traversal");
+        cbt.preOrderTraversal(cbt.root);
+        System.out.println("PostOrder Traversal");
+        cbt.postOrderTraversal(cbt.root);*/
+        //Find the min value of binary tree
+        System.out.println("Minimum Value : " + cbt.minValue(cbt.root));
+        System.out.println("Maximum Value : " + cbt.maxValue(cbt.root));
+        System.out.println(cbt.findNode(cbt.root, 51));
+        System.out.println(cbt.findNode(cbt.root, 54));
+        System.out.println(cbt.findNodeWithRecursion(cbt.root, 51));
+        System.out.println(cbt.findNodeWithRecursion(cbt.root, 54));
     }
 }
