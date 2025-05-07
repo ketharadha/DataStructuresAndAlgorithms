@@ -106,14 +106,41 @@ public class CustomArrayList {
         ca.add(80);
         
        System.out.println(ca);
-       ca.remove(2);
+       ca.removeWithArrayCopy(2);
        System.out.println(ca);
 
        System.out.println("Object Array Length : " + ca.size());
     }
 
+    /*@Override
+    public String toString() {
+        return "CustomArrayList [" +Arrays.toString(objectArray) + "]";
+    }*/
+
     @Override
     public String toString() {
-        return "CustomArrayList [Elements=" + Arrays.toString(objectArray) + "]";
+        StringBuilder s=new StringBuilder();
+        s.append("[");
+        for (int i = 0; i < objectArray.length; i++) {
+            if(i==(objectArray.length-1)) {
+                if(null!=objectArray[i])
+                    s.append(objectArray[i]);
+            } else {
+                s.append(objectArray[i]);
+                if(null!=objectArray[i]) {
+                    if(i==(objectArray.length-1)) {
+                        s.append(objectArray[i]);
+                    }else {
+                        s.append(objectArray[i]+", ");
+                    }
+                }
+            }
+        }
+        s.append("]");
+        return s.toString();
+    }
+    
+    public void actualArrayList() {
+        
     }
 }
