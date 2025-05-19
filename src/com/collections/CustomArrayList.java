@@ -1,7 +1,5 @@
 package com.collections;
 
-import java.util.Arrays;
-
 /**
  * ArrayList is implemented using Object array. 
  * When the arraylist max out it's initial capacity it automatically 
@@ -23,7 +21,6 @@ public class CustomArrayList {
         objectArray = new Object[initialCapacity];
     }
     
-
     public void add(Object o) {
         if(o == null) {
             throw new IllegalArgumentException("The element should not be null");
@@ -35,7 +32,7 @@ public class CustomArrayList {
             for (int i = 0; i < objectArray.length; i++) {
                 newArray[i] = objectArray[i];
             }
-            System.arraycopy(objectArray, 0, newArray, 0, objectArray.length);
+            //System.arraycopy(objectArray, 0, newArray, 0, objectArray.length);
             objectArray = newArray;
         }
         objectArray[index] = o;
@@ -80,7 +77,6 @@ public class CustomArrayList {
         System.arraycopy(objectArray, indexToBeDeleted+1, 
                         objectArray, indexToBeDeleted, 
                         numberOfShifts);
-        
         return obj;
     }
 

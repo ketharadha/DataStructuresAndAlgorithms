@@ -1,7 +1,5 @@
 package com.collections;
 
-import com.sun.jdi.connect.Connector;
-
 public class CustomBinarySearchTree {
     Node root;
 
