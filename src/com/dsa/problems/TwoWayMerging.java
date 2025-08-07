@@ -30,20 +30,20 @@ public class TwoWayMerging {
         // b = {4,6,7,11,14,15,16}
         while (i < n && j < m) {
             if(a[i] < b[j]) {
-                c[k] = a[i];
-                i++; k++;
+                c[k++] = a[i++];
+                //i++; k++;
             } else {
-                c[k] = b[j];
-                j++; k++;
+                c[k++] = b[j++];
+                //j++; k++;
             }
         }
         while(i < n) {
-            c[k] = a[i];
-            i++; k++;
+            c[k++] = a[i++];
+            //i++; k++;
         }
         while(j < m) {
-            c[k] = b[j];
-            j++; k++;
+            c[k++] = b[j++];
+            //j++; k++;
         }
 
         System.out.println(Arrays.toString(a));
