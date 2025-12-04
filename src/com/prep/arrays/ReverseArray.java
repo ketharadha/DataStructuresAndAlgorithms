@@ -18,6 +18,15 @@ public class ReverseArray {
         return reverseArray;
     }
 
+
+    private int[] reverArray(int[] arr) {
+        int[] revArr = new int[arr.length];
+        for(int i = 0; i < arr.length; i++) {
+            revArr[i] = arr[arr.length - (i + 1)];
+        }
+        return revArr;
+    }
+
     private int[] reverArrayBySwapMethod(int[] intArray) {
         int start = 0;
         int end = intArray.length-1;
@@ -33,13 +42,15 @@ public class ReverseArray {
     
     public static void main(String[] args) {
         ReverseArray reverseArray = new ReverseArray();
-        int inputArray[] = {2,11,5,10,7,8};
+        /*int inputArray[] = {2,11,5,10,7,8};
         reverseArray.printArray(inputArray);
         int[] reverIntArray = reverseArray.reverIntArray(inputArray);
         System.out.println("\n");
         reverseArray.printArray(reverIntArray);
         System.out.println("\n");
         int[] reverArrayBySwapMethod = reverseArray.reverArrayBySwapMethod(inputArray);
-        reverseArray.printArray(reverArrayBySwapMethod);
+        reverseArray.printArray(reverArrayBySwapMethod);*/
+        int input[] = {1,4,3,2,6,5};
+        reverseArray.printArray(reverseArray.reverArray(input));
     }
 }

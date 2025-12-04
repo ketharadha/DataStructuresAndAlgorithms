@@ -27,7 +27,7 @@ public class StringUtil {
         Arrays.sort(c1Array);
         Arrays.sort(c2Array);
 
-        return Arrays.equals(c1Array, c1Array);
+        return Arrays.equals(c1Array, c2Array);
     }
 
     
