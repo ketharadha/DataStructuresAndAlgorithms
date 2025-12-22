@@ -275,8 +275,182 @@ After completing this README, you will have:
 
 ---
 
-**Welcome to Linux-first software development.**
+Nice — that’s a smart move.
+Below is a **clean, copy-paste-ready checklist** you can drop straight into your **dev workflow README**.
 
+It reflects **exactly what you’ve set up**, using **Tailscale + IP-based ACLs + SSH + Remote Desktop prep**, and explains **why** each step exists.
+
+---
+
+# Remote Access to Home Linux Server (CGNAT-safe)
+
+This setup enables secure remote access from a Windows laptop to a home Linux server behind CGNAT using Tailscale.
+
+---
+
+## 1. Install and configure Tailscale on the Linux server
+
+```bash
+curl -fsSL https://tailscale.com/install.sh | sh
+sudo tailscale up
 ```
+
+**Why:**
+Creates a secure, encrypted, private network interface (`tailscale0`) that works without a public IP or port forwarding.
+
+---
+
+## 2. Verify Linux server is connected to Tailscale
+
+```bash
+tailscale status
+tailscale ip -4
+```
+
+**Why:**
+Confirms the Linux server has successfully joined the Tailscale network and obtained a stable private IP (`100.x.x.x`).
+
+---
+
+## 3. Install and enable SSH server on Linux
+
+```bash
+sudo apt update
+sudo apt install openssh-server
+sudo systemctl enable ssh
+sudo systemctl start ssh
+```
+
+**Why:**
+Allows the Linux server to accept incoming remote connections over SSH.
+
+---
+
+## 4. Confirm SSH is listening on all interfaces
+
+```bash
+sudo ss -tlnp | grep :22
+```
+
+**Why:**
+Ensures SSH is reachable over the Tailscale interface and not restricted to localhost or LAN only.
+
+---
+
+## 5. Verify firewall is not blocking connections
+
+```bash
+sudo ufw status
+```
+
+**Why:**
+Confirms no local firewall rules are blocking inbound traffic (UFW inactive).
+
+---
+
+## 6. Install Tailscale on the Windows laptop
+
+* Download from: [https://tailscale.com/download/windows](https://tailscale.com/download/windows)
+* Sign in with the same Tailscale account
+
+```powershell
+tailscale status
+```
+
+**Why:**
+Adds the Windows laptop to the same private network so it can reach the Linux server securely.
+
+---
+
+## 7. Verify connectivity from Windows to Linux
+
+```powershell
+tailscale ping <linux-tailscale-ip>
+```
+
+**Why:**
+Confirms encrypted network connectivity between the Windows laptop and the Linux server.
+
+---
+
+## 8. Connect to Linux server via SSH from Windows
+
+```powershell
+ssh <linux-username>@<linux-tailscale-ip>
+```
+
+**Why:**
+Provides reliable remote terminal access to the Linux server for development and administration.
+
+---
+
+## 9. Configure Tailscale ACLs (IP-based, all ports allowed)
+
+```json
+{
+  "acls": [
+    {
+      "action": "accept",
+      "src": ["<your-email@example.com>"],
+      "dst": ["100.xx.xxx.xxx:*"]
+    }
+  ]
+}
+```
+
+**Why:**
+Explicitly allows all traffic from the authenticated user to the Linux server, preventing ACL-related connection timeouts.
+
+---
+
+## 10. Prepare Linux server for remote desktop (GUI access)
+
+```bash
+sudo apt install ubuntu-desktop-minimal
+```
+
+**Why:**
+Installs a lightweight desktop environment required for graphical remote access tools.
+
+---
+
+## 11. (Optional) Attempted NoMachine remote desktop setup
+
+* NoMachine server installed on Linux
+* NoMachine client installed on Windows
+* Encountered compatibility issues on Ubuntu 26.04
+
+**Why:**
+Explored high-performance remote desktop access over Tailscale; noted instability on development Ubuntu releases.
+
+---
+
+## 12. Final verified working access paths
+
+| Access Type        | Status                                   |
+| ------------------ | ---------------------------------------- |
+| Tailscale network  | ✅ Working                                |
+| SSH over Tailscale | ✅ Working                                |
+| ACL enforcement    | ✅ Working                                |
+| GUI remote desktop | ⚠️ Optional / pending (XRDP recommended) |
+
+---
+
+## Key design decisions
+
+* **Tailscale instead of port forwarding** → Secure, CGNAT-safe access
+* **IP-based ACLs** → Simple and explicit control during initial setup
+* **SSH as primary access** → Stable, lightweight, and dev-friendly
+* **GUI optional** → Avoids instability on bleeding-edge Ubuntu
+
+---
+
+## Recommended next improvements (future)
+
+* Replace IP-based ACLs with machine names or tags
+* Switch to XRDP if GUI access is required
+* Enable SSH key-based authentication
+* Lock SSH to Tailscale interface only
+* Add MagicDNS for hostname-based access
 
 ---
